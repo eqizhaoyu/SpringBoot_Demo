@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TestServiceImpl">
+	<resultMap type="com.unihuatong.business.work.entity.TestEntity"
+		id="TestMap">
+		<id column="ID" property="id" javaType="String" />
+		<result column="NAME" property="name" javaType="String" />
+		<result column="STATUS" property="status" javaType="String" />
+	</resultMap>
+
+	<select id="selectList" parameterType="String" resultMap="TestMap">
+		select
+		* from test
+	</select>
+
+	<select id="selectObj" parameterType="String" resultMap="TestMap">
+		select *
+		from test where ID = #{id}
+	</select>
+
+	<insert id="addObj">
+		insert into test(ID,NAME,STATUS) values
+		(
+		<trim suffix="" suffixOverrides=",">
+			#{id},
+			#{name},
+			#{status},
+		</trim>
+		)
+	</insert>
+
+	<update id="updateObj" parameterType="String">
+		update test
+		<set>
+			<if test="name != null and name != ''">
+				NAME = #{name},
+			</if>
+			<if test="status != null and status != ''">
+				STATUS = #{status},
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+	<delete id="deleteObj" parameterType="String">
+		delete from test where ID = #{id}
+	</delete>
+
+</mapper>
